@@ -163,8 +163,7 @@ Const cdoSendUsingMethod 			= "http://schemas.microsoft.com/cdo/configuration/se
 			cdoSendUsingPort 		= 2, _
 			cdoSMTPServer 			= "http://schemas.microsoft.com/cdo/configuration/smtpserver", _
 			cdoSMTPServerport 		= "http://schemas.microsoft.com/cdo/configuration/smtpserverport", _
-			cdoSMTPconnectiontimeout = "http://schemas.microsoft.com/cdo/configuration/Connectiontimeout", _
-            cdoSMTPAuthenticate = "http://schemas.microsoft.com/cdo/configuration/smtpauthenticate"
+			cdoSMTPconnectiontimeout = "http://schemas.microsoft.com/cdo/configuration/Connectiontimeout"
 
 'Web address to refer users for unhandled error codes
 strAddr = "https://support.microsoft.com/en-us/kb/938205"
@@ -225,7 +224,7 @@ blnCloseIE = true
 '*******************************************************************************
 'Turn on debugging.  This will show some of the variables that are being passed 
 ' while the script executes.
-Intdebug = 1          
+Intdebug = 0       
 
 'How long between the time that the script is finished and the IE window stays
 ' on the screen.  Set to '0' if you don't want the status window to close 
@@ -272,13 +271,13 @@ strAction = "install"
 ' command-line arguments, then this will automatically turn on ('1').
 ' 0 = off, don't email
 ' 1 = on, email using default address defined in the var 'strMailto' above.
-blnEmail = 1
+blnEmail = 0
 
 'strEmailIfAllOK Determines if email always sent or only if updates or reboot 
 ' needed.
 ' 0 = off, don't send email if no updates needed and no reboot needed
 ' 1 = on always send email
-strEmailIfAllOK = 1
+strEmailIfAllOK = 0
 
 'strFullDNSName Determines if the email subject contains the full dns name of 
 ' the server or just the computer name.
@@ -1140,7 +1139,7 @@ Set Flds = iConf.Fields
 If lcase(strAuthType) <> "cdoanonymous" Then
   'Type of authentication, NONE, Basic (Base64 encoded), NTLM
   iMsg.Configuration.Fields.Item _
-("http://schemas.microsoft.com/cdo/configuration/smtpauthenticate") = 1' strAuthType
+("http://schemas.microsoft.com/cdo/configuration/smtpauthenticate") = strAuthType' strAuthType
 
   'Your UserID on the SMTP server
   iMsg.Configuration.Fields.Item _
@@ -1158,7 +1157,6 @@ With Flds
 	.Item(cdoSMTPServer) = strSMTPServer
 	.Item(cdoSMTPServerPort) = iSMTPServerPort
 	.Item(cdoSMTPconnectiontimeout) = 60
-    .Item(cdoSMTPAuthenticate)=1 'strAuthType
 	.Update
 End With
 'l.close
